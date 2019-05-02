@@ -8,7 +8,20 @@
 
 import Foundation
 
-struct Photo: Equatable {
+class Photo {
     var imageData: Data
     var title: String
+    
+    init(imageData: Data, title: String) {
+        self.imageData = imageData
+        self.title = title
+    }
+}
+
+extension Photo: Equatable {
+    static func == (lhs: Photo, rhs: Photo) -> Bool {
+        return lhs.imageData == rhs.imageData && lhs.title == rhs.title
+    }
+    
+    
 }
