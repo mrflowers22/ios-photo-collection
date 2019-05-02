@@ -22,5 +22,5 @@ class PhotoController {
         photo.imageData = newImageData
         photo.title = newTitle
     }
-    
+    ///dummy code right here
 }
