@@ -12,4 +12,5 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var label: UILabel!
+    //ths is what im going to do
 }
