@@ -124,7 +124,11 @@
                         <viewLayoutGuide key="safeArea" id="crj-BZ-DLP"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="YS8-Wv-Mg6">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="QwO-dd-ZKH"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="QwO-dd-ZKH">
+                            <connections>
+                                <action selector="saveButton:" destination="nDg-lB-Fb1" id="U1o-WR-Fh3"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="FsP-4m-Cx0" id="gON-gv-iMO"/>
