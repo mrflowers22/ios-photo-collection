@@ -70,7 +70,7 @@
                     <navigationItem key="navigationItem" id="sZG-MA-bDO">
                         <barButtonItem key="leftBarButtonItem" title="Select Theme" id="jtE-w4-8dQ">
                             <connections>
-                                <segue destination="pse-zS-2Cc" kind="presentation" identifier="selectSegue" id="LaC-CS-G1s"/>
+                                <segue destination="pse-zS-2Cc" kind="presentation" identifier="themeSegue" id="LaC-CS-G1s"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Nbf-BM-VGL">

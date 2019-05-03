@@ -8,82 +8,74 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
 class PhotosCollectionViewController: UICollectionViewController {
+    
+    let pc = PhotoController()
+    let themeHelper = ThemeHelper()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return pc.photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCollectionViewCell
+        
+        let photoToPassToViewCell = pc.photos[indexPath.item]
+        cell.photo = photoToPassToViewCell
+        
         // Configure the cell
     
         return cell
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    func setTheme(){
+        //check to see if themePreference has a value
+        guard let setThemePreference = themeHelper.themePreference else { return }
+        
+        //check to see what that value is. Remember that themPreference is  computed property that could return two possible values, so we have to figure out which value it is returning
+        if setThemePreference == "Dark" {
+            collectionView.backgroundColor = .brown
+        } else {
+            collectionView.backgroundColor = .blue
+        }
     }
-    */
-
+   
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "themeSegue" {
+            let destinationVC = segue.destination as! ThemeSelectionViewController
+            destinationVC.themeHelper = themeHelper
+        }
+        
+        if segue.identifier == "addSegue" {
+            let destinationVC = segue.destination as! PhotoDetailViewController
+            destinationVC.themeHelper = themeHelper
+            destinationVC.pC = pc
+        }
+        
+        if segue.identifier == "cellSegue" {
+            //1. set the segue destination View Controller
+            //2. This is a two parter: a. we cast the sender (in the function of the segue) as a uicollectionViewCell. b. we do this because we take that cell and use it to get the indexPath (type Int) to help us find the photo/item at that cell
+            //3. pass the photo we've found to the destinationVC
+            //4. pass the photocontroller and themehelper to the destinationVC
+            
+            guard let destinationVC = segue.destination as? PhotoDetailViewController, let myIndex = sender as? UICollectionViewCell, let indexPath = collectionView.indexPath(for: myIndex) else { return }
+            let photoToPassToPhotoDetalViewController = pc.photos[indexPath.item]
+            destinationVC.photo = photoToPassToPhotoDetalViewController
+            destinationVC.pC = pc
+            destinationVC.themeHelper = themeHelper
+        }
+     }
+   
 }
